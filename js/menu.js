@@ -78,30 +78,32 @@ const initTournaments = (tournaments) => {
     row.forEach((column) => {
       const columnElement = document.createElement("div");
       columnElement.classList.add('"col-md-6', "col-lg-4", "mb-3");
-      console.log(column);
-      columnElement.innerHTML = `<div class="card ${column.gender} ${column.tennis_center} ${column.category}" onclick="window.location.href='http://localhost/CheckwithRacheli/tournement.php?tid=${column.tournament_num}'">
+      columnElement.innerHTML = `
+      <div class="modal fade show d-none" id="smallModal" tabindex="-1" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel2">Warning!<br>Are you sure you want to delete ${column.name} tournament?</h5>
+            <button type="button" class="btn-close" onclick="backHome()" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="cancel" class="btn btn-outline-secondary" data-bs-dismiss="modal" onclick="backHome()">Cancel</button>
+            <button type="button" id="warning" class="btn btn-primary" onclick="deleteTour(${column.tournament_num})">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="card ${column.gender} ${column.tennis_center} ${column.category}" onclick="window.location.href='http://localhost/CheckwithRacheli/tournement.php?tid=${column.tournament_num}'">
       <div class="card-header">
       <span>${column.name}</span>
       <div>
           <i class="small_menu fa-solid fa-ellipsis-vertical"></i>
           <ul class="more-info-menu d-none">
-            <li onclick="warning2(${column.tournament_num})">edit</li>
-            <li onclick="warning()">delete</li>
+          <li onclick="go_to_edit(${column.tournament_num})">edit</li>
+          <li data-bs-toggle="modal" data-bs-target="#smallModal" onclick="open_modal()">delete</li>
           </ul>
-          <div class="modal fade show d-none" id="smallModal" tabindex="-1" aria-modal="true" role="dialog" style="display: block;">
-          <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel2">Warning!<br>Are you sure you want to delte this tournamnet?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <form action="GET" method="http://localhost/CheckwithRacheli/index.php" class="modal-footer">
-                <button type="button" name="submit" value="cancel" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" name="submit" value="delete" id="warning" class="btn btn-primary">Delete</button>
-              </form>
-            </div>
-          </div>
-        </div>
           </div>
       </div>
       <div class="card-body">
@@ -179,7 +181,6 @@ fetch("http://localhost/CheckwithRacheli/tennis_centers.json")
 
 window.onload = () => {
   const more_menu = document.getElementsByClassName("small_menu");
-  document.getElementById("profileImage").addEventListener("click", profile_func);
   for (const menu of more_menu) {
     menu.addEventListener("mouseenter", small_menu_func);
     const small_menu = menu.parentElement.getElementsByTagName("ul")[0];
@@ -201,26 +202,31 @@ function small_menu_func_out() {
 }
 
 
+function open_modal(){
+    const e = window.event;
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
+    e.preventDefault();
+    smallModal = document.getElementById("smallModal");
+    smallModal.classList.remove("d-none");
+    smallModal.classList.add("d-block");
+  }
 
-function warning(e) {
-  if (!e) var e = window.event;
-  e.cancelBubble = true;
-  if (e.stopPropagation) e.stopPropagation();
-  e.preventDefault();
-  smallModal = document.getElementById('smallModal');
-  smallModal.classList.remove('d-none');
-  smallModal.classList.add('d-block');
-}
-
-function warning2(x) {
-  console.log(x);
+function backHome() {
+    window.location.href="http://localhost/CheckwithRacheli/index.php";
+  }
+  
+  function deleteTour(x){
+      window.location.href=`http://localhost/CheckwithRacheli/delete.php?tid=${x}`;
+  }
+  
+  function go_to_edit(x){
   const e = window.event;
   e.cancelBubble = true;
   if (e.stopPropagation) e.stopPropagation();
   e.preventDefault();
   window.location.href = `http://localhost/CheckwithRacheli/edit.php?tid=${x}`;
 }
-
 
 function setRegistration(dateTournament) {
   let Registration = document.getElementById("Registration");
@@ -230,10 +236,6 @@ function setRegistration(dateTournament) {
   Registration.removeAttribute("readonly");
   Registration.max = RegistrationDate;
 }
-// min Tournament date
-// date.min = new Date().toISOString().split("T")[0];
-
-
 
 const navigateToFormStep = (stepNumber) => {
   document.querySelectorAll(".form-step").forEach((formStepElement) => {
