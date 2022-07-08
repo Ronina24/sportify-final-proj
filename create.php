@@ -35,8 +35,8 @@ $result_bottom = mysqli_query($connection, $query_bottom);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/core.css">
-    <link rel="stylesheet" href="./css/theme-default.css">
+    <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/vendor/css/core.css">
+    <link rel="stylesheet" href="http://tinyurl.com/theme-default-rr">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <title>Sportify</title>
@@ -257,7 +257,7 @@ $result_bottom = mysqli_query($connection, $query_bottom);
     </main>
     <!-- /main page content -->
     </div>
-    <script src="./js/menu.js"></script>
+    <script src="js/menu.js"></script>
 </body>
 
 </html>
