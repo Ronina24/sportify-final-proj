@@ -1,0 +1,40 @@
+{
+    "Tennis_centers" : [
+	{
+		"id" : 1,
+		"name" : "Misgav Club",
+		"city" : "Misgav",
+		"courts_num" : 8 
+	},
+	{
+		"id" : 2,
+		"name" : "Top Club",
+		"city" : "Carmiel",
+		"courts_num" : 4 
+	},
+	{
+		"id" : 3,
+		"name" : "Rokah",
+		"city" : "Tel-Aviv",
+		"courts_num" : 12 
+	},
+    {
+		"id" : 4,
+		"name" : "Court Philippe Chatrier",
+		"city" : "paris",
+		"courts_num" : 20
+	},
+    {
+		"id" : 5,
+		"name" : "Wigmore Lawn Tennis Club",
+		"city" : "London",
+		"courts_num" : 20
+	},
+    {
+		"id" : 6,
+		"name" : "South Tennis Center",
+		"city" : "Beer-Sheva",
+		"courts_num" : 20
+	}
+]
+}
