@@ -13,6 +13,7 @@ if (!empty($_POST["email-username"])) {
     if (is_array($row)) {
         $_SESSION["name"] = $row['name'];
         $_SESSION["type"] = $row['type'];
+        $_SESSION["email"] = $row['email'];
         $_SESSION["image"] = $row['image'];
         mysqli_free_result($result);
         mysqli_close($connection);
@@ -33,9 +34,12 @@ if (!empty($_POST["email-username"])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/core.css">
     <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/vendor/css/core.css">
-    <link rel="stylesheet" href="http://tinyurl.com/theme-default-rr">
-    <link rel="stylesheet" href="http://tinyurl.com/box-icon-rr">
+    <link rel="stylesheet" href="https://tinyurl.com/theme-default-rr">
+    <link rel="stylesheet" href="https://tinyurl.com/box-icon-rr">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/js/helpers.js"></script>
+    <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/js/bootstrap.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <title>Sportify</title>
 </head>
@@ -58,9 +62,6 @@ if (!empty($_POST["email-username"])) {
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">Password:</label>
-                                    <a href="#">
-                                        <small>Forgot Password?</small>
-                                    </a>
                                 </div>
                                 <div class="input-group input-group-merge">
                                     <input type="password" class="form-control" name="password" id="password" placeholder="············" aria-describedby="password">
@@ -72,9 +73,9 @@ if (!empty($_POST["email-username"])) {
                             <div class="mb-3">
                                 <button class="btn btn-primary d-grid w-100" type="submit" id="login">Sign in</button>
                             </div>
-                            <!-- <div class="error-message"><?php if (isset($message)) {
+                            <div class="error-message"><?php if (isset($message)) {
                                                                 echo $message;
-                                                            } ?></div> -->
+                                                            } ?></div>
                         </form>
                     </div>
                 </div>
@@ -82,7 +83,6 @@ if (!empty($_POST["email-username"])) {
         </div>
     </div>
 </body>
-
 </html>
 <?php
 mysqli_close($connection);
