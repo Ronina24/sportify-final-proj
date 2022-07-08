@@ -1,13 +1,13 @@
 <?php
-    include "db.php";
-    include "config.php";
-    session_start();
+include "db.php";
+include "config.php";
+session_start();
 
-    if (!isset($_SESSION["type"]))
-        header('Location: ' . URL . 'login.php');
+if (!isset($_SESSION["type"]))
+    header('Location: ' . URL . 'login.php');
 
-if (isset($_POST['submit'])){
-   // if (!empty($_POST['name']) && !empty($_POST['category']) && !empty($_POST['gender']) && !empty($_POST['age']) && !empty($_POST['date']) && !empty($_POST['reward']) && !empty($_POST['center']) && !empty($_POST['max'])) {
+if (isset($_POST['submit'])) {
+    if (!empty($_POST['name']) && !empty($_POST['category']) && !empty($_POST['gender']) && !empty($_POST['age']) && !empty($_POST['date']) && !empty($_POST['reward']) && !empty($_POST['center'])) {
         $name = $_POST['name'];
         $category = $_POST['category'];
         $age = $_POST['age'];
@@ -17,11 +17,14 @@ if (isset($_POST['submit'])){
         $gender = $_POST['gender'];
         $date = $_POST['date'];
         $query  = "INSERT INTO tbl_tournaments_211(name,date,category,age,status,tennis_center,award,msg_num,participants_num,gender) VALUES('$name','$date','$category','$age','0','$center','$reward','1','$max','$gender')";
-        $result = mysqli_query($connection, $query) or die(mysqli_error());
-        if ($result) { header("Refresh:0; url=index.php"); return;}
-        else {echo "Form not submitted";}
+        $result = mysqli_query($connection, $query);
+         if ($result) { header('Location: ' . URL . 'index.php');}
+        // else {echo "Form not submitted";}
 
+    } else {
+        echo "all fields require!";
     }
+}
 /* three bottom*/
 $query_bottom  = "SELECT * FROM tbl_tournaments_211 order by date desc limit 3";
 $result_bottom = mysqli_query($connection, $query_bottom);
@@ -49,22 +52,24 @@ $result_bottom = mysqli_query($connection, $query_bottom);
             <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
                 <div class="avatar avatar-online">
-                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
-                        class="w-px-40 h-auto rounded-circle">
+                    <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle" id="profileImage">
                 </div>
             </div>
+            <ul class="dropdown-menu d-none" id="profile">
+                <li>
+                    <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle">
+                    <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
+                </li>
+                <li><a class="dropdown-item" href="#">Edit profile</a></li>
+                <li><a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a></li>
+            </ul>
             <ul>
-                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i
-                            class="fa-solid fa-award"></i>Tournaments</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-user-group"></i>Referees</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-bars-progress"></i>categories</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-bullseye"></i>Tennis
+                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i class="fa-solid fa-award"></i>Tournaments</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-user-group"></i>Referees</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bars-progress"></i>categories</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bullseye"></i>Tennis
                         Centers</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-chart-simple"></i>Statistics</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-chart-simple"></i>Statistics</a></li>
             </ul>
         </aside>
         <!-- /side-bar -->
@@ -76,8 +81,7 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                     <div id="hamburger"><i class="fa-solid fa-bars bar-icon"></i></div>
                     <!-- userAvatar -->
                     <div class="avatar avatar-online">
-                        <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt=""
-                            class="w-px-40 h-auto rounded-circle">
+                        <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle">
                     </div>
                     <!-- /userAvatar -->
                 </div>
@@ -87,10 +91,10 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                 </h4>
                 <!-- Create form -->
                 <form method="post" action="#">
-                <div class="col-md-12">
-                    <div class="card me-sm-5">
-                        <!-- start -->
-                        <div id="multi-step-form-container">
+                    <div class="col-md-12">
+                        <div class="card me-sm-5">
+                            <!-- start -->
+                            <div id="multi-step-form-container">
                                 <!-- Form Steps / Progress Bar -->
                                 <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
                                     <!-- Step 1 -->
@@ -123,78 +127,76 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                 </ul>
                                 <!-- Step Wise Form Content -->
                                 <!-- end -->
-                        <div class="card-body">
-                        <section id="step-1" class="form-step">
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="tournament-name" class="form-label">Name of tournament<span> *</span></label>
-                                    <input type="text" name="name" class="form-control" id="tournament-name" aria-describedby="defaultFormControlHelp" placeholder="Name of tournament" required>
-                                </div>
-                                <div class="col mb-3">
-                                    <label for="catagory" class="form-label">Category</label>
-                                    <select id="catagory" name="category" class="form-select color-dropdown">
-                                        <option value="National">National</option>
-                                        <option value="International">International</option>
-                                        <option value="Reginal">Reginal</option>
-                                        <option value="Municipal">Municipal</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mt-3 action-section">
+                                <div class="card-body">
+                                    <section id="step-1" class="form-step">
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <label for="tournament-name" class="form-label">Name<span> *</span></label>
+                                                <input type="text" name="name" class="form-control" id="tournament-name" aria-describedby="defaultFormControlHelp" placeholder="Name of tournament" required>
+                                            </div>
+                                            <div class="col mb-3">
+                                                <label for="catagory" class="form-label">Category</label>
+                                                <select id="catagory" name="category" class="form-select color-dropdown">
+                                                    <option value="national">National</option>
+                                                    <option value="international">International</option>
+                                                    <option value="reginal">Reginal</option>
+                                                    <option value="municipal">Municipal</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 action-section">
                                             <button class="btn rounded-pill btn-dark btn-navigate-form-step" type="button" step_number="2">Next</button>
                                         </div>
                                     </section>
                                     <section id="step-2" class="form-step d-none">
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="date" class="form-label">Date<span> *</span></label>
-                                    <input type="date" name="date" class="form-control" id="date" aria-describedby="defaultFormControlHelp" onchange="setRegistration(value)" required>
-                                </div>
-                                <div class="col mb-3">
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <label for="date" class="form-label">Date<span> *</span></label>
+                                                <input type="date" name="date" class="form-control" id="date" aria-describedby="defaultFormControlHelp" onchange="setRegistration(value)" required>
+                                            </div>
+                                            <div class="col mb-3">
                                                 <label for="Registration" class="form-label">Registration Date</label>
                                                 <input type="date" name="Registration" class="form-control" id="Registration" aria-describedby="defaultFormControlHelp" readonly>
                                                 <!-- <img src="images/edit.png" alt="" id="RegistrationEdit" onclick="editDateReg()"> -->
                                             </div>
-                            </div>
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="gender" class="form-label">Gender</label>
-                                    <select id="gender" name="gender" class="form-select color-dropdown">
-                                        <option value="male">male</option>
-                                        <option value="female">female</option>
-                                        <option value="involved">involved</option>
-                                    </select>
-                                </div>
-                                <div class="col mb-3">
-                                    <label for="ages" class="form-label">Ages</label>
-                                    <input type="number" name="age" class="form-control" id="ages"
-                                        aria-describedby="defaultFormControlHelp" min="6" max="60">
-                                </div>
-                            </div>
-                            <div class="mt-3 action-section">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <label for="gender" class="form-label">Gender</label>
+                                                <select id="gender" name="gender" class="form-select color-dropdown">
+                                                    <option value="male">male</option>
+                                                    <option value="female">female</option>
+                                                    <option value="involved">involved</option>
+                                                </select>
+                                            </div>
+                                            <div class="col mb-3">
+                                                <label for="ages" class="form-label">Ages</label>
+                                                <input type="number" name="age" class="form-control" id="ages" aria-describedby="defaultFormControlHelp" min="6" max="60">
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 action-section">
                                             <button class="btn rounded-pill btn-dark btn-navigate-form-step" type="button" step_number="1">Prev</button>
                                             <button class="btn rounded-pill btn-dark btn-navigate-form-step" type="button" step_number="3">Next</button>
                                         </div>
                                     </section>
                                     <section id="step-3" class="form-step d-none">
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="center" class="form-label">Tennis Center</label>
-                                    <select id="center" name="center" class="form-select color-dropdown">
-                                    </select>
-                                </div>
-                                <div class="col mb-3">
-                                    <label for="maximum" class="form-label">Max participants</label>
-                                    <input type="number" name="max" class="form-control" id="maximum"
-                                        aria-describedby="defaultFormControlHelp">
-                                </div>
-                            </div>
-                            <div class="row">
-                            <div class="col mb-3">
-                                    <label for="reward" class="form-label">reward<span> *</span></label>
-                                    <input type="number" name="reward" class="form-control" id="reward" aria-describedby="defaultFormControlHelp" required>
-                                </div>
-                                <div class="col mb-3">
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <label for="center" class="form-label">Tennis Center</label>
+                                                <select id="center" name="center" class="form-select color-dropdown">
+                                                </select>
+                                            </div>
+                                            <div class="col mb-3">
+                                                <label for="maximum" class="form-label">Max participants</label>
+                                                <input type="number" name="max" class="form-control" id="maximum" aria-describedby="defaultFormControlHelp">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <label for="reward" class="form-label">reward<span> *</span></label>
+                                                <input type="number" name="reward" class="form-control" id="reward" aria-describedby="defaultFormControlHelp" required>
+                                            </div>
+                                            <div class="col mb-3">
                                                 <label for="nameOfAdmin" class="form-label">Name</label>
                                                 <input type="text" name="nameOfAdmin" class="form-control" id="nameOfAdmin" readonly aria-describedby="defaultFormControlHelp" value=<?php echo $_SESSION["name"] ?>>
                                             </div>
@@ -204,20 +206,20 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                             <button class="btn rounded-pill btn-dark submit-btn" type="submit" name="submit">Create</button>
                                         </div>
                                     </section>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <!-- /Create form -->
-</form>
+                        <!-- /Create form -->
+                </form>
             </div>
             <section id="tournaments-updates" class="container-xxl flex-grow-1 container-p-y">
                 <h4 class="py-3 mb-4 text-muted fw-light">
                     Upcoming tournaments
                 </h4>
                 <div class="row mb-5 me-sm-5">
-                    
-<?php
-                    while($row_bottom =mysqli_fetch_assoc($result_bottom)){
+
+                    <?php
+                    while ($row_bottom = mysqli_fetch_assoc($result_bottom)) {
                         echo "
                         <div class='col-md-4'>
                         <div class='card'>
@@ -227,19 +229,19 @@ $result_bottom = mysqli_query($connection, $query_bottom);
      
                             <div class='card-body'>
                                 <div class='progress'>
-                                    <div class='progress-bar bg-success' role='progressbar' style='width:" . $row_bottom["status"] ."%'
-                                        aria-valuenow=". $row_bottom["status"] ." aria-valuemin='0' aria-valuemax='100'>
+                                    <div class='progress-bar bg-success' role='progressbar' style='width:" . $row_bottom["status"] . "%'
+                                        aria-valuenow=" . $row_bottom["status"] . " aria-valuemin='0' aria-valuemax='100'>
                                     </div>
                                 </div>
                                 <div class='card-meta'>
                                     <div class='tournament-attribute'><i
-                                            class='fa-solid fa-xl fa-people-group'></i><span>". $row_bottom["participants_num"] ."</span>
+                                            class='fa-solid fa-xl fa-people-group'></i><span>" . $row_bottom["participants_num"] . "</span>
                                     </div>
                                     <div class='tournament-attribute'><i
-                                            class='fa-solid fa-xl fa-calendar'></i><span>". $row_bottom["date"] ."</span>
+                                            class='fa-solid fa-xl fa-calendar'></i><span>" . $row_bottom["date"] . "</span>
                                     </div>
                                     <div class='tournament-attribute'><i
-                                            class='fa-solid fa-xl fa-table-cells'></i><span>". $row_bottom["age"] ."</span>
+                                            class='fa-solid fa-xl fa-table-cells'></i><span>" . $row_bottom["age"] . "</span>
                                     </div>
 
                                 </div>
@@ -247,15 +249,15 @@ $result_bottom = mysqli_query($connection, $query_bottom);
 
                         </div>
                     </div>";
-                }
-                ?>
+                    }
+                    ?>
 
                 </div>
             </section>
             <!-- /last tournaments -->
-    
-    </main>
-    <!-- /main page content -->
+
+        </main>
+        <!-- /main page content -->
     </div>
     <script src="js/menu.js"></script>
 </body>
