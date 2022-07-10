@@ -508,3 +508,31 @@ ul.form-stepper li a .form-stepper-circle {
   width: 100% !important;
 }
 
+#filterResult{
+  background-color: #c2eb2d;
+  padding: 4px;
+  font-size: 10px;
+  cursor: pointer;
+  border-radius: 40px;
+  font-weight: 300;
+  margin-left: 10px;
+  color: #000;
+  display: none;
+}
+
+.dropdown-header{
+  color: #b1d824;
+  font-weight: 500;
+}
+
+.errorMessage{
+color: red;
+}
+
+.dropdown-toggle{
+  z-index: 100;
+}
+
+#profileSpan{
+  font-size: 10px;
+}
