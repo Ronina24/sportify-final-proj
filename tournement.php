@@ -46,7 +46,7 @@ if (!isset($_SESSION["type"]))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/vendor/css/core.css">
-    <link rel="stylesheet" href="https://tinyurl.com/theme-default-rr">
+    <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/vendor/css/theme-default.css">
     <link
     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
     rel="stylesheet">
@@ -100,8 +100,8 @@ if (!isset($_SESSION["type"]))
                     </div>
                 </div>
                 <h4 class="fw-bold py-3 mb-4">
-                    <a href="http://localhost/CheckwithRacheli/index.php"><span class="text-muted fw-light">Tournaments /</span></a>
-                    <?php echo $row['name']; ?>
+                    <a href="http://localhost/CheckwithRacheli/index.php"><span class="text-muted fw-light">Tournaments /</span></a><span>
+                    <?php echo $row['name']; ?></span>
                 </h4>
                 <div class="card">
                     <div class="card-body">               

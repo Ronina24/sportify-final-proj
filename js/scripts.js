@@ -1,5 +1,6 @@
 var tournaments;
 var filteredTournaments;
+var noAdmin;
 
 const debounce = (callback) => {
   let timer;
