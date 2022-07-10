@@ -71,32 +71,31 @@ if (isset($_POST['save'])){
         <aside id="side-menu">
         <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
-                <div class="avatar avatar-online">
-                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                <div class="btn-group">
+                    <div class="avatar avatar-online dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt="" class="w-px-40 h-auto rounded-circle">
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div>
+                        <img src="<?php echo $_SESSION["image"] ?>" alt=""
                         class="w-px-40 h-auto rounded-circle">
+                            <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item filterBth">Edit profile</a>
+                        <a class="dropdown-item filterBth">Settings</a>
+                        <a class="dropdown-item filterBth">Language</a>
+                        <a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a>
+                    </div>
                 </div>
             </div>
-            <ul class="dropdown-menu d-none" id="profile">
-                <li>
-                <img src="<?php echo $_SESSION["image"] ?>" alt=""
-                        class="w-px-40 h-auto rounded-circle">
-                    <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &scap; (online)</span>
-                </li>
-                <li><a class="dropdown-item" href="#">Edit profile</a></li>
-                <li><a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a></li>
-            </ul>
             <ul>
-                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i
-                            class="fa-solid fa-award"></i>Tournaments</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-user-group"></i>Referees</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-bars-progress"></i>categories</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-bullseye"></i>Tennis
+                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i class="fa-solid fa-award"></i>Tournaments</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-user-group"></i>Referees</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bars-progress"></i>categories</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bullseye"></i>Tennis
                         Centers</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-chart-simple"></i>Statistics</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-chart-simple"></i>Statistics</a></li>
             </ul>
         </aside>
         <!-- /side-bar -->
@@ -111,7 +110,7 @@ if (isset($_POST['save'])){
                     </div>
                 </div>
                 <h4 class="fw-bold py-3 mb-4">
-                <a href="http://localhost/CheckwithRacheli/index.php"><span class="text-muted fw-light">Tournaments / <?php echo $row['name']?></span></a>
+                    <span href="http://localhost/CheckwithRacheli/index.php" class="text-muted fw-light">Tournaments / <?php echo $row['name']?></span>
                 </h4>
                 <form method="post" action="edit.php?tid=<?php echo $tid?>">
                 <div class="col-md-12">
@@ -238,7 +237,7 @@ if (isset($_POST['save'])){
     </main>
     </div>
     <div class="error-message"><?php if(isset($message)) { echo $message; } ?></div>
-    <script src="js/menu.js"></script>
+    <script src="js/scripts.js"></script>
     <?php
         mysqli_free_result($result);
     ?>

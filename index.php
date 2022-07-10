@@ -6,7 +6,11 @@ session_start();
 
 if (!isset($_SESSION["type"]))
     header('Location: ' . URL . 'login.php');
-
+if ($_SESSION["type"] != 'admin') {
+    $notAdmin = 1;
+} else {
+    $notAdmin = 2;
+}
 $query  = "SELECT * FROM tbl_tournaments_211";
 $result = mysqli_query($connection, $query);
 $data = []; 
@@ -42,20 +46,24 @@ while ($row = mysqli_fetch_assoc($result)) {
         <aside id="side-menu">
         <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
-                <div class="avatar avatar-online">
-                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                <div class="btn-group">
+                    <div class="avatar avatar-online dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt="" class="w-px-40 h-auto rounded-circle">
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div>
+                        <img src="<?php echo $_SESSION["image"] ?>" alt=""
                         class="w-px-40 h-auto rounded-circle">
+                            <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item filterBth">Edit profile</a>
+                        <a class="dropdown-item filterBth">Settings</a>
+                        <a class="dropdown-item filterBth">Language</a>
+                        <a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a>
+                    </div>
                 </div>
             </div>
-            <ul class="dropdown-menu d-none" id="profile">
-                <li>
-                <img src="<?php echo $_SESSION["image"] ?>" alt=""
-                        class="w-px-40 h-auto rounded-circle">
-                    <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &scap; (online)</span>
-                </li>
-                <li><a class="dropdown-item" href="#">Edit profile</a></li>
-                <li><a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a></li>
-            </ul>
             <ul>
                 <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i class="fa-solid fa-award"></i>Tournaments</a></li>
                 <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-user-group"></i>Referees</a></li>
@@ -91,7 +99,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                         Filters
                     </div>
                     <div id="filterResult"></div>
-                    <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-menu dropdown-menu-right" id="centerFilter">
                         <h6 class="dropdown-header">Category</h6>
                         <button class="dropdown-item filterBth" onclick="filterSelection('national')">National</button>
                         <button class="dropdown-item filterBth" onclick="filterSelection('international')">International</button>
@@ -101,19 +109,23 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <button class="dropdown-item filterBth" onclick="filterSelection('male')">Male</button>
                         <button class="dropdown-item filterBth" onclick="filterSelection('female')">Female</button>
                         <button class="dropdown-item filterBth" onclick="filterSelection('involved')">Involved</button>
-                        <h6 class="dropdown-header" id="centerFilter">Tennis Center</h6>
+                        <h6 class="dropdown-header">Tennis Center</h6>
                     </div>
                 </div>
-                <button type="button" class="createBtn action-web btn rounded-pill btn-dark">+
-                    Create Tournamet</button>
+                <?PHP if ($_SESSION["type"] == 'admin') {
+                    echo '<button type="button" class="createBtn action-web btn rounded-pill btn-dark">+
+                                Create Tournamet</button>';
+                } ?>
             </div>
 
             <!-- Tournaments container -->
             <section id="tournaments" class="container-xxl flex-grow-1 container-p-y">
             </section>
             <!-- /Tournaments container-->
-            <div class="action-mobile mb-4 justify-content-center"><button type="button" class="createBtn btn rounded-pill btn-xl btn-icon btn-dark"><span>+</span></button>
-            </div>
+            <?PHP if ($_SESSION["type"] == 'admin') {
+                echo '<div class="action-mobile mb-4 justify-content-center"><button type="button" class="btn rounded-pill btn-xl btn-icon btn-dark"><span>+</span></button>
+                    </div>';
+            } ?>
 
         </main>
     </div>
@@ -122,8 +134,9 @@ while ($row = mysqli_fetch_assoc($result)) {
                                     } ?></div>
     <script>
         var tournaments = <?php echo json_encode($data); ?>;
+        var noAdmin = <?php echo $notAdmin; ?>;
     </script>
-    <script src="./js/menu.js"></script>
+    <script src="./js/scripts.js"></script>
     <?php
         mysqli_free_result($result);
     ?>
