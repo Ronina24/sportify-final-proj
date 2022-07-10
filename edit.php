@@ -11,12 +11,11 @@ $json_data=json_decode(file_get_contents("http://localhost/CheckwithRacheli/tenn
 $selected_center="";
 $centers = $json_data["Tennis_centers"];    
 
-$tid= $_GET["tid"]; // url queries are stored in $_GET
-echo $tid;
-// if (!$tid){
-//     header("Refresh:0; url=index.php");
-//     return;
-// }
+$tid= $_GET["tid"]; 
+if (!$tid){
+    header("Refresh:0; url=index.php");
+    return;
+}
 $query  = "SELECT * FROM tbl_tournaments_211 WHERE tournament_num= $tid";
 $result = mysqli_query($connection, $query);
 $row= mysqli_fetch_assoc($result);
@@ -33,22 +32,21 @@ $result_bottom = mysqli_query($connection, $query_bottom);
 
 /*updae edit*/
 if (isset($_POST['save'])){
-    echo "BLABLA";
-        $name= $_POST['name'];
-        $category= $_POST['category'];
-        $age= $_POST['age'];
-        $reward= $_POST['reward'];
-        $max= $_POST['max'];
-        $center= $_POST['center'];
-        $gender= $_POST['gender'];
-        $date= $_POST['date'];
+    $update_date = date("Y-m-d H:i:s");
+    $name= $_POST['name'];
+    $category= $_POST['category'];
+    $age= $_POST['age'];
+    $reward= $_POST['reward'];
+    $max= $_POST['max'];
+    $center= $_POST['center'];
+    $gender= $_POST['gender'];
+    $date= $_POST['date'];
         $query_update  = "UPDATE tbl_tournaments_211 SET
-        name='$name', date='$date', category='$category', age='$age, tennis_center='$center', 
-        award='$reward', participants_num='$max', gender='$gender'gender'
-        WHERE tournament_num= $tid";
+           name='$name', date='$date', category='$category', age=$age, tennis_center='$center', 
+    award=$reward, participants_num=$max, gender='$gender', time_stamp='$update_date' WHERE tournament_num=$tid";
 
-      //  $result_update = mysqli_query($connection, $query_update) or die(mysqli_error());
-        if ($result_update){ header("Refresh:0; url=edit.php"); return;}
+    $result_update = mysqli_query($connection, $query_update) or die(mysqli_error());
+    if ($result_update){ header("Refresh:0; url=index.php"); return;}
         else {echo "Form not submitted";}
  }
 ?>
@@ -60,10 +58,13 @@ if (isset($_POST['save'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/core.css">
-    <!-- <link rel="stylesheet" href="./css/theme-default.css"> -->
-    <link rel="stylesheet" href="http://tinyurl.com/theme-default-rr">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/vendor/css/core.css">
+    <link rel="stylesheet" href="https://tinyurl.com/theme-default-rr">
+    <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -71,17 +72,18 @@ if (isset($_POST['save'])){
 </head>
 <body>
     <div id="wrapper">
-        <!-- side-bar -->
         <aside id="side-menu">
-            <div id="side-menu-header">
+        <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
-                <div class="btn-group">
-                    <div class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle">
+ <div class="btn-group">
+                    <div class="dropdown-toggle avatar avatar-online" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                         <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
                     </div>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div>
-                            <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle">
+                             <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
                             <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -104,23 +106,19 @@ if (isset($_POST['save'])){
         </aside>
         <!-- /side-bar -->
         <div class="menu-bg"></div>
-        <!-- main page content -->
         <main class="layout-page">
             <div class="container-xxl flex-grow-1 container-p-y">
                 <div class="d-flex justify-content-between" id="navbar-mobile">
                     <div id="hamburger"><i class="fa-solid fa-bars bar-icon"></i></div>
-                    <!-- userAvatar -->
                     <div class="avatar avatar-online">
-                        <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt=""
-                            class="w-px-40 h-auto rounded-circle">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
                     </div>
-                    <!-- /userAvatar -->
                 </div>
                 <h4 class="fw-bold py-3 mb-4">
-                    <span class="text-muted fw-light">Tournaments / <?php echo $row['name']?></span>
+                <a href="http://localhost/CheckwithRacheli/index.php"><span class="text-muted fw-light">Tournaments / <?php echo $row['name']?></span></a>
                 </h4>
-                <!-- Create form -->
-                <form method="post" action="#">
+                <form method="post" action="edit.php?tid=<?php echo $tid?>">
                 <div class="col-md-12">
                     <div class="card me-sm-5">
                         <div class="card-body">
@@ -150,7 +148,6 @@ if (isset($_POST['save'])){
                                 <div class="col mb-3">
                                                 <label for="Registration" class="form-label">Registration Date</label>
                                                 <input type="date" name="Registration" class="form-control" id="Registration" aria-describedby="defaultFormControlHelp" readonly>
-                                                <!-- <img src="images/edit.png" alt="" id="RegistrationEdit" onclick="editDateReg()"> -->
                                             </div>
                             </div>
                             <div class="row">
@@ -173,7 +170,7 @@ if (isset($_POST['save'])){
                                 <div class="col mb-3">
                                     <label for="center" class="form-label">Tennis Center</label>
                                     <select id="center" name="center" class="form-select color-dropdown">
-                                    <option value="<?php echo $selected_center?>" selected="<?php echo $selected_center?>"><?php echo $selected_center?></option>
+                                    <option selected="<?php echo $selected_center?>" value="<?php echo $selected_center?>" placeholder="<?php echo $selected_center?>"><?php echo  $selected_center?></option>
                                     </select>
                                 </div>
                                 <div class="col mb-3">
@@ -189,8 +186,8 @@ if (isset($_POST['save'])){
                                         aria-describedby="defaultFormControlHelp" required>
                                 </div>
                                 <div class="col mb-3">
-                                    <label for="nameOfAdmin" class="form-label">Name</label>
-                                        <input type="text" name="nameOfAdmin" class="form-control" id="nameOfAdmin" readonly aria-describedby="defaultFormControlHelp" value=<?php echo $_SESSION["name"] ?>>
+                                <label for="update" class="form-label">Update time</label>
+                                        <input type="text" name="update_date" class="form-control" readonly aria-describedby="defaultFormControlHelp" value="<?php echo $row['time_stamp']?>">
                                 </div>
                         </div>
                             <div class="action-section"> <button type="submit" name="save"
@@ -199,10 +196,8 @@ if (isset($_POST['save'])){
                         </div>
                     </div>
                 </div>
-                <!-- /Create form -->
 </form>
             </div>
-            <!-- last tournaments -->
             <section id="tournaments-updates" class="container-xxl flex-grow-1 container-p-y">
                 <h4 class="py-3 mb-4 text-muted fw-light">
                     Upcoming tournaments
@@ -245,15 +240,15 @@ if (isset($_POST['save'])){
 
                 </div>
             </section>
-            <!-- /last tournaments -->
     </main>
-    <!-- /main page content -->
     </div>
     <div class="error-message"><?php if(isset($message)) { echo $message; } ?></div>
-    <script src="./js/menu.js"></script>
+    <script src="js/menu.js"></script>
+    <?php
+        mysqli_free_result($result);
+    ?>
 </body>
-
 </html>
 <?php
-mysqli_close($connection);
+    mysqli_close($connection);
 ?>

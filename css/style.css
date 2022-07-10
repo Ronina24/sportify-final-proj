@@ -309,8 +309,8 @@ nav .avatar-online {
     font-size: unset !important;
   }
 
-  #tournaments-updates {
-    display: none;
+  .col-md-4 .card {
+    margin-bottom: 1rem;
   }
 
   #navbar-mobile {

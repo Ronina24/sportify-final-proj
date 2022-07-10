@@ -17,9 +17,7 @@ const clearList = () => {
 
 const debouncedSearch = debounce(function (e) {
   const inputText = e.target.value; // Get the text typed by user
-  filteredTournaments = tournaments.filter(({
-      name
-    }) =>
+  filteredTournaments = tournaments.filter(({ name }) =>
     name.toLowerCase().includes(inputText.toLowerCase())
   );
   clearList();
@@ -77,32 +75,37 @@ const initTournaments = (tournaments) => {
     const rowElement = document.createElement("div");
     rowElement.classList.add("row", "mb-2");
     row.forEach((column) => {
+      console.log({ column });
       const columnElement = document.createElement("div");
       columnElement.classList.add('"col-md-6', "col-lg-4", "mb-3");
-      console.log(column);
-      columnElement.innerHTML = `<div class="card ${column.gender} ${column.tennis_center} ${column.category}" onclick="window.location.href='http://localhost/CheckwithRacheli/tournement.php?tid=${column.tournament_num}'">
+      columnElement.innerHTML = `
+      <div class="modal fade show d-none" id="deleteModal-${column.tournament_num}" tabindex="-1" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel2">Warning!<br>Are you sure you want to delete ${column.name} tournament?</h5>
+            <button type="button" class="btn-close" onclick="backHome()" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="cancel" class="btn btn-outline-secondary" data-bs-dismiss="modal" onclick="backHome()">Cancel</button>
+            <button type="button" id="warning" class="btn btn-primary" onclick="deleteTour(${column.tournament_num})">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="card ${column.gender} ${column.tennis_center} ${column.category}" onclick="window.location.href='http://localhost/CheckwithRacheli/tournement.php?tid=${column.tournament_num}'">
       <div class="card-header">
       <span>${column.name}</span>
       <div>
-          <i class="small_menu fa-solid fa-ellipsis-vertical smallMenuAdmin"></i>
-          <ul  class="more-info-menu d-none">
-            <li onclick="warning2(${column.tournament_num})">edit</li>
-            <li onclick="warning()">delete</li>
+
+          <i class="small_menu fa-solid fa-ellipsis-vertical"></i>
+          <ul class="more-info-menu d-none">
+          <li onclick="go_to_edit(${column.tournament_num})">edit</li>
+          <li data-bs-toggle="modal" data-bs-target="#deleteModal-${column.tournament_num}" onclick="open_modal(${column.tournament_num})">delete</li>
+
           </ul>
-          <div class="modal fade show d-none" id="smallModal" tabindex="-1" aria-modal="true" role="dialog" style="display: block;">
-          <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel2">Warning!<br>Are you sure you want to delte this tournamnet?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <form action="GET" method="http://localhost/CheckwithRacheli/index.php" class="modal-footer">
-                <button type="button" name="submit" value="cancel" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" name="submit" value="delete" id="warning" class="btn btn-primary">Delete</button>
-              </form>
-            </div>
-          </div>
-        </div>
           </div>
       </div>
       <div class="card-body">
@@ -150,10 +153,7 @@ function showcenter(data) {
     return;
   }
   for (const key in data.Tennis_centers) {
-    const {
-      name,
-      id
-    } = data.Tennis_centers[key];
+    const { name, id } = data.Tennis_centers[key];
     input_center.innerHTML += `<option value="${id}" id="${id}">${name}</option>`;
   }
 }
@@ -164,10 +164,7 @@ function showCenterFilter(data) {
     return;
   }
   for (const key in data.Tennis_centers) {
-    const {
-      name,
-      id
-    } = data.Tennis_centers[key];
+    const { name, id } = data.Tennis_centers[key];
     input_center.innerHTML += `<button class="dropdown-item filterBth" onclick="filterSelection('${id}')">${name}</button>`;
   }
 }
@@ -202,20 +199,26 @@ function small_menu_func_out() {
   this.classList.add("d-none");
 }
 
-
-
-function warning(e) {
-  if (!e) var e = window.event;
+function open_modal(tid) {
+  const e = window.event;
   e.cancelBubble = true;
   if (e.stopPropagation) e.stopPropagation();
   e.preventDefault();
-  smallModal = document.getElementById('smallModal');
-  smallModal.classList.remove('d-none');
-  smallModal.classList.add('d-block');
+  smallModal = document.getElementById(`deleteModal-${tid}`);
+  smallModal.classList.remove("d-none");
+  smallModal.classList.add("d-block");
 }
 
-function warning2(x) {
-  console.log(x);
+function backHome() {
+  window.location.href = "http://localhost/CheckwithRacheli/index.php";
+}
+
+function deleteTour(x) {
+  console.log({ x });
+  window.location.href = `http://localhost/CheckwithRacheli/delete.php?tid=${x}`;
+}
+
+function go_to_edit(x) {
   const e = window.event;
   e.cancelBubble = true;
   if (e.stopPropagation) e.stopPropagation();
@@ -223,19 +226,20 @@ function warning2(x) {
   window.location.href = `http://localhost/CheckwithRacheli/edit.php?tid=${x}`;
 }
 
-
 function setRegistration(dateTournament) {
   let Registration = document.getElementById("Registration");
   let RegistrationTempDate = new Date(dateTournament);
-  let RegistrationDate = new Date(RegistrationTempDate.setDate(RegistrationTempDate.getDate(dateTournament) - 30)).toISOString().slice(0, 10);;
+  let RegistrationDate = new Date(
+    RegistrationTempDate.setDate(
+      RegistrationTempDate.getDate(dateTournament) - 30
+    )
+  )
+    .toISOString()
+    .slice(0, 10);
   Registration.value = RegistrationDate;
   Registration.removeAttribute("readonly");
   Registration.max = RegistrationDate;
 }
-// min Tournament date
-// date.min = new Date().toISOString().split("T")[0];
-
-
 
 const navigateToFormStep = (stepNumber) => {
   let validation, ErrorMessage;
@@ -271,28 +275,45 @@ const navigateToFormStep = (stepNumber) => {
   });
   document.querySelectorAll(".form-stepper-list").forEach((formStepHeader) => {
     formStepHeader.classList.add("form-stepper-unfinished");
-    formStepHeader.classList.remove("form-stepper-active", "form-stepper-completed");
+    formStepHeader.classList.remove(
+      "form-stepper-active",
+      "form-stepper-completed"
+    );
   });
 
   document.querySelector("#step-" + stepNumber).classList.remove("d-none");
 
-  const formStepCircle = document.querySelector('li[step="' + stepNumber + '"]');
+  const formStepCircle = document.querySelector(
+    'li[step="' + stepNumber + '"]'
+  );
 
-  formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-completed");
+  formStepCircle.classList.remove(
+    "form-stepper-unfinished",
+    "form-stepper-completed"
+  );
   formStepCircle.classList.add("form-stepper-active");
   for (let index = 0; index < stepNumber; index++) {
     const formStepCircle = document.querySelector('li[step="' + index + '"]');
     if (formStepCircle) {
-      formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-active");
+      formStepCircle.classList.remove(
+        "form-stepper-unfinished",
+        "form-stepper-active"
+      );
       formStepCircle.classList.add("form-stepper-completed");
     }
   }
 };
-document.querySelectorAll(".btn-navigate-form-step").forEach((formNavigationBtn) => {
-  formNavigationBtn.addEventListener("click", () => {
-    const stepNumber = parseInt(formNavigationBtn.getAttribute("step_number"));
-    navigateToFormStep(stepNumber);
+document
+  .querySelectorAll(".btn-navigate-form-step")
+  .forEach((formNavigationBtn) => {
+    formNavigationBtn.addEventListener("click", () => {
+      const stepNumber = parseInt(
+        formNavigationBtn.getAttribute("step_number")
+      );
+      navigateToFormStep(stepNumber);
+    });
   });
+
 });
 
 function filterSelection(filterChoice) {
@@ -305,6 +326,7 @@ function filterSelection(filterChoice) {
     clearList();
     initTournaments(tournaments);
     return
+
   }
 
   filterResult.style.display = 'block';
@@ -317,6 +339,7 @@ function filterSelection(filterChoice) {
       tournamentsArrTemp.push(tournaments[i]);
       Result++;
     }
+
   }
 
   for (i = 0; i < tournaments.length; i++) {
@@ -385,4 +408,6 @@ function removeManu(admin) {
       dot[i].style.display = "none";
     }
   }
+
 }
+
