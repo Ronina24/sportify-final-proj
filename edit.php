@@ -4,7 +4,7 @@ include "config.php";
 
 session_start();
 
-if (!isset($_SESSION["type"]))
+if (($_SESSION["type"] != 'admin'))
     header('Location: ' . URL . 'login.php');
 
 $json_data=json_decode(file_get_contents("http://localhost/CheckwithRacheli/tennis_centers.json"),true);
@@ -58,12 +58,16 @@ if (isset($_POST['save'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/vendor/css/core.css">
     <link rel="stylesheet" href="https://tinyurl.com/theme-default-rr">
     <link
     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
     rel="stylesheet">
+
     <link rel="stylesheet" href="./css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <title>Sportify</title>
 </head>
 <body>
@@ -71,33 +75,34 @@ if (isset($_POST['save'])){
         <aside id="side-menu">
         <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
-                <div class="avatar avatar-online">
-                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+ <div class="btn-group">
+                    <div class="dropdown-toggle avatar avatar-online" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                         <img src="<?php echo $_SESSION["image"] ?>" alt=""
                         class="w-px-40 h-auto rounded-circle">
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div>
+                             <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
+                            <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item filterBth">Edit profile</a>
+                        <a class="dropdown-item filterBth">Settings</a>
+                        <a class="dropdown-item filterBth">Language</a>
+                        <a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a>
+                    </div>
                 </div>
             </div>
-            <ul class="dropdown-menu d-none" id="profile">
-                <li>
-                <img src="<?php echo $_SESSION["image"] ?>" alt=""
-                        class="w-px-40 h-auto rounded-circle">
-                    <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &scap; (online)</span>
-                </li>
-                <li><a class="dropdown-item" href="#">Edit profile</a></li>
-                <li><a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a></li>
-            </ul>
             <ul>
-                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i
-                            class="fa-solid fa-award"></i>Tournaments</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-user-group"></i>Referees</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-bars-progress"></i>categories</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-bullseye"></i>Tennis
+                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i class="fa-solid fa-award"></i>Tournaments</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-user-group"></i>Referees</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bars-progress"></i>categories</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bullseye"></i>Tennis
                         Centers</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-chart-simple"></i>Statistics</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-chart-simple"></i>Statistic</a></li>
             </ul>
+
         </aside>
         <!-- /side-bar -->
         <div class="menu-bg"></div>
