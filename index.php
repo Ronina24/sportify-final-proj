@@ -9,16 +9,11 @@ if (!isset($_SESSION["type"]))
 
 $query  = "SELECT * FROM tbl_tournaments_211";
 $result = mysqli_query($connection, $query);
-$data = []; // Save the data into an arbitrary array.
+$data = []; 
 
 while ($row = mysqli_fetch_assoc($result)) {
     $data[] = $row;
 }
-
-// if ($_GET['submit'] == 'delete') {
-//   $row_id = (int)$_POST['row_id'];
-//   mysql_query("DELETE FROM tbl_tournaments_211 WHERE id=" . $row_id); 
-// }
 
 ?>
 <!DOCTYPE html>
@@ -45,16 +40,18 @@ while ($row = mysqli_fetch_assoc($result)) {
     <div id="wrapper">
         <!-- side-bar -->
         <aside id="side-menu">
-            <div id="side-menu-header">
+        <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
-                <div class="avatar avatar-online dropdown">
-                    <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle" id="profileImage">
+                <div class="avatar avatar-online">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
                 </div>
             </div>
             <ul class="dropdown-menu d-none" id="profile">
                 <li>
-                    <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle">
-                    <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
+                <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
+                    <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &scap; (online)</span>
                 </li>
                 <li><a class="dropdown-item" href="#">Edit profile</a></li>
                 <li><a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a></li>
@@ -72,30 +69,22 @@ while ($row = mysqli_fetch_assoc($result)) {
         <!-- /side-bar -->
 
         <div class="menu-bg"></div>
-        <!-- main page content -->
         <main class="layout-page">
-            <!-- search+user navbar -->
             <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
                 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                     <div id="hamburger"><i class="fa-solid fa-bars bar-icon"></i></div>
                     <i class="fa-solid fa-magnifying-glass bar-icon"></i>
-                    <!-- Search -->
                     <div class="navbar-nav align-items-center">
                         <div class="nav-item d-flex align-items-center">
-                            <i class="bx bx-search fs-4 lh-0"></i>
                             <input type="text" id="search" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search...">
                         </div>
                     </div>
-                    <!-- /Search -->
-                    <!-- userAvatar -->
                     <div class="avatar avatar-online">
-                        <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle more-info-menu">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
                     </div>
-                    <!-- /userAvatar -->
                 </div>
             </nav>
-
-            <!-- /search+user navbar -->
             <div id="filters" class="container-lg container-p-y">
                 <div class="btn-group">
                     <div class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -123,19 +112,23 @@ while ($row = mysqli_fetch_assoc($result)) {
             <section id="tournaments" class="container-xxl flex-grow-1 container-p-y">
             </section>
             <!-- /Tournaments container-->
-            <div class="action-mobile mb-4 justify-content-center"><button type="button" class="btn rounded-pill btn-xl btn-icon btn-dark"><span>+</span></button>
+            <div class="action-mobile mb-4 justify-content-center"><button type="button" class="createBtn btn rounded-pill btn-xl btn-icon btn-dark"><span>+</span></button>
             </div>
 
         </main>
-        <!-- /main page content -->
     </div>
-    <!-- <div class="error-message"><?php if (isset($message)) {
+    <div class="error-message"><?php if (isset($message)) {
                                         echo $message;
-                                    } ?></div> -->
+                                    } ?></div>
     <script>
         var tournaments = <?php echo json_encode($data); ?>;
     </script>
     <script src="./js/menu.js"></script>
+    <?php
+        mysqli_free_result($result);
+    ?>
 </body>
-
 </html>
+<?php
+    mysqli_close($connection);
+?>

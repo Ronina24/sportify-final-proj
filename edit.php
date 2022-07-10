@@ -11,12 +11,11 @@ $json_data=json_decode(file_get_contents("http://localhost/CheckwithRacheli/tenn
 $selected_center="";
 $centers = $json_data["Tennis_centers"];    
 
-$tid= $_GET["tid"]; // url queries are stored in $_GET
-echo $tid;
-// if (!$tid){
-//     header("Refresh:0; url=index.php");
-//     return;
-// }
+$tid= $_GET["tid"]; 
+if (!$tid){
+    header("Refresh:0; url=index.php");
+    return;
+}
 $query  = "SELECT * FROM tbl_tournaments_211 WHERE tournament_num= $tid";
 $result = mysqli_query($connection, $query);
 $row= mysqli_fetch_assoc($result);
@@ -69,12 +68,11 @@ if (isset($_POST['save'])){
 </head>
 <body>
     <div id="wrapper">
-        <!-- side-bar -->
         <aside id="side-menu">
-            <div id="side-menu-header">
+        <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
                 <div class="avatar avatar-online">
-                <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
                         class="w-px-40 h-auto rounded-circle">
                 </div>
             </div>
@@ -103,22 +101,18 @@ if (isset($_POST['save'])){
         </aside>
         <!-- /side-bar -->
         <div class="menu-bg"></div>
-        <!-- main page content -->
         <main class="layout-page">
             <div class="container-xxl flex-grow-1 container-p-y">
                 <div class="d-flex justify-content-between" id="navbar-mobile">
                     <div id="hamburger"><i class="fa-solid fa-bars bar-icon"></i></div>
-                    <!-- userAvatar -->
                     <div class="avatar avatar-online">
-                        <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt=""
-                            class="w-px-40 h-auto rounded-circle">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
                     </div>
-                    <!-- /userAvatar -->
                 </div>
                 <h4 class="fw-bold py-3 mb-4">
-                    <span class="text-muted fw-light">Tournaments / <?php echo $row['name']?></span>
+                <a href="http://localhost/CheckwithRacheli/index.php"><span class="text-muted fw-light">Tournaments / <?php echo $row['name']?></span></a>
                 </h4>
-                <!-- Create form -->
                 <form method="post" action="edit.php?tid=<?php echo $tid?>">
                 <div class="col-md-12">
                     <div class="card me-sm-5">
@@ -149,7 +143,6 @@ if (isset($_POST['save'])){
                                 <div class="col mb-3">
                                                 <label for="Registration" class="form-label">Registration Date</label>
                                                 <input type="date" name="Registration" class="form-control" id="Registration" aria-describedby="defaultFormControlHelp" readonly>
-                                                <!-- <img src="images/edit.png" alt="" id="RegistrationEdit" onclick="editDateReg()"> -->
                                             </div>
                             </div>
                             <div class="row">
@@ -198,10 +191,8 @@ if (isset($_POST['save'])){
                         </div>
                     </div>
                 </div>
-                <!-- /Create form -->
 </form>
             </div>
-            <!-- last tournaments -->
             <section id="tournaments-updates" class="container-xxl flex-grow-1 container-p-y">
                 <h4 class="py-3 mb-4 text-muted fw-light">
                     Upcoming tournaments
@@ -244,15 +235,15 @@ if (isset($_POST['save'])){
 
                 </div>
             </section>
-            <!-- /last tournaments -->
     </main>
-    <!-- /main page content -->
     </div>
     <div class="error-message"><?php if(isset($message)) { echo $message; } ?></div>
     <script src="js/menu.js"></script>
+    <?php
+        mysqli_free_result($result);
+    ?>
 </body>
-
 </html>
 <?php
-mysqli_close($connection);
+    mysqli_close($connection);
 ?>
