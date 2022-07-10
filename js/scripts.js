@@ -128,6 +128,7 @@ const initTournaments = (tournaments) => {
     });
     container.appendChild(rowElement);
   });
+  removeManu(noAdmin);
 };
 
 initHamburger();
@@ -237,6 +238,34 @@ function setRegistration(dateTournament) {
 }
 
 const navigateToFormStep = (stepNumber) => {
+  let validation, ErrorMessage;
+  if (stepNumber == 2) {
+    date.min = new Date().toISOString().split("T")[0];
+    validation = document.getElementById('tournament-name');
+    if (validation.value.length < 3) {
+      ErrorMessage = document.getElementById('errorMessageName');
+      ErrorMessage.innerHTML = 'The name of the tournament must be at least 3 in length';
+      validation.style.background = '#c2eb2d';
+      validation.addEventListener('change', () => {
+        validation.style.background = 'white';
+        ErrorMessage.innerHTML = ''
+      });
+      return;
+    }
+  }
+  if (stepNumber == 3) {
+    validation = document.getElementById('date');
+    if (!validation.value) {
+      ErrorMessage = document.getElementById('errorMessageDate');
+      ErrorMessage.innerHTML = 'Date selection is required';
+      validation.style.background = '#c2eb2d';
+      validation.addEventListener('change', () => {
+        validation.style.background = 'white';
+        ErrorMessage.innerHTML = ''
+      });
+      return;
+    }
+  }
   document.querySelectorAll(".form-step").forEach((formStepElement) => {
     formStepElement.classList.add("d-none");
   });
@@ -281,60 +310,94 @@ document
     });
   });
 
-function profile_func() {
-  let profile_menu = document.getElementById("profile");
-  if (profile_menu.classList.contains("d-none")) {
-    profile_menu.classList.remove("d-none");
-  } else {
-    profile_menu.classList.add("d-none");
-  }
-}
-filterSelection("all");
-function filterSelection(filterChoice) {
-  let filterBy,
-    i,
-    Result = 0;
-  filterBy = document.getElementsByClassName("card");
-  filterResult = document.getElementById("filterResult");
-  if (filterChoice == "all") {
-    filterChoice = "";
-    filterResult.style.display = "none";
-  } else {
-    filterResult.style.display = "block";
+  function filterSelection(filterChoice) {
+    let i, Result = 0;
+    let tournamentsArrTemp = new Array();
+    filterResult = document.getElementById('filterResult');
+  
+    if (filterChoice == 'all') {
+      filterResult.style.display = 'none';
+      clearList();
+      initTournaments(tournaments);
+      return
+    }
+  
+    filterResult.style.display = 'block';
     filterResult.onclick = () => {
       filterSelection("all");
     };
-  }
-  for (i = 0; i < filterBy.length; i++) {
-    AddClass(filterBy[i], "d-none");
-    if (filterBy[i].className.indexOf(filterChoice) > -1) {
-      RemoveClass(filterBy[i], "d-none");
-      filterBy[i].style.removeProperty("visibility");
-      Result++;
+  
+    for (i = 0; i < tournaments.length; i++) {
+      if (filterChoice == tournaments[i].category) {
+        tournamentsArrTemp.push(tournaments[i]);
+        Result++;
+      }
     }
-    filterResult.innerHTML = filterChoice + "&nbsp;x" + Result;
+  
+    for (i = 0; i < tournaments.length; i++) {
+      console.log(filterChoice + ' ' + tournaments[i])
+      if (filterChoice == tournaments[i].tennis_center) {
+        tournamentsArrTemp.push(tournaments[i]);
+        Result++;
+      }
+    }
+  
+    for (i = 0; i < tournaments.length; i++) {
+      if (filterChoice == tournaments[i].gender) {
+        tournamentsArrTemp.push(tournaments[i]);
+        Result++;
+      }
+    }
+  
+    clearList();
+    if (Result != 0) {
+      initTournaments(tournamentsArrTemp);
+    };
+  
+    filterChoice = cenetr(filterChoice);
+    filterResult.innerHTML = filterChoice + '&nbsp;x' + Result;
   }
-}
-
-function AddClass(element, name) {
-  let i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    if (arr1.indexOf(arr2[i]) == -1) {
-      element.className += " " + arr2[i];
+  
+  // Changing a tennis center from numbers to string
+  function cenetr(value) {
+    let center, tempValue, num;
+  
+    tempValue = value;
+    num = parseInt(tempValue);
+  
+    switch (num) {
+      case num = 1:
+        center = 'Misgav Club'
+        break;
+      case num = 2:
+        center = 'Top Club'
+        break;
+      case num = 3:
+        center = 'Rokah'
+        break;
+      case num = 4:
+        center = 'Court Philippe Chatrier'
+        break;
+      case num = 5:
+        center = 'Wigmore Lawn Tennis Club'
+        break;
+      case num = 6:
+        center = 'South Tennis Center'
+        break;
+  
+      default:
+        center = value;
+        break;
+    }
+    return center;
+  }
+  
+  function removeManu(admin) {
+    let i;
+    let dot = document.getElementsByClassName("smallMenuAdmin");
+    if (admin == 1) {
+      for (i = 0; i < dot.length; i++) {
+        dot[i].style.display = "none";
+      }
     }
   }
-}
-
-function RemoveClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    while (arr1.indexOf(arr2[i]) > -1) {
-      arr1.splice(arr1.indexOf(arr2[i]), 1);
-    }
-  }
-  element.className = arr1.join(" ");
-}

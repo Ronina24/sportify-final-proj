@@ -7,34 +7,34 @@ session_start();
 if (!isset($_SESSION["type"]))
     header('Location: ' . URL . 'login.php');
 
-    $json_data=json_decode(file_get_contents("http://localhost/CheckwithRacheli/tennis_centers.json"),true);
-    $selected_center="";
+    $json_data = json_decode(file_get_contents("http://localhost/CheckwithRacheli/tennis_centers.json"),true);
+    $selected_center = "";
     $centers = $json_data["Tennis_centers"];
 
-	$tid= $_GET["tid"];
-    if (!$tid){
+	$tid = $_GET["tid"];
+    if (!$tid) {
         header("Refresh:0; url=index.php");
         return;
     }
     $query  = "SELECT * FROM tbl_tournaments_211 WHERE tournament_num= $tid";
     $query_join = "SELECT * FROM tbl_tournaments_211 JOIN tbl_messages_211 using(tournament_num) 
-    WHERE tournament_num= $tid" ;
+    WHERE tournament_num= $tid";
     $result = mysqli_query($connection, $query);
     $msgs = mysqli_query($connection, $query_join);
-    $row= mysqli_fetch_assoc($result);
+    $row = mysqli_fetch_assoc($result);
     
-    for($i=0;$i<count($centers);$i++){
+    for ($i = 0; $i < count($centers); $i++) {
 
-        if ($centers[$i]['id'] == $row['tennis_center']){
+        if ($centers[$i]['id'] == $row['tennis_center']) {
     
-            $selected_center = $centers[$i]['name'] ;
+            $selected_center = $centers[$i]['name'];
         }
     }
 
     if (!empty($_GET['new_msg'])) {
-        $new_msg= $_GET['new_msg'];
+        $new_msg = $_GET['new_msg'];
         $query  = "INSERT INTO tbl_messages_211(txt,tournament_num) VALUES('$new_msg',$tid)";
-        if ($result){unset($_GET['new_msg']);header("Refresh:0; url=tournement.php?tid=$tid");}}
+        if ($result) {unset($_GET['new_msg']);header("Refresh:0; url=tournement.php?tid=$tid");}}
 
 ?>
 <!DOCTYPE html>
@@ -63,32 +63,31 @@ if (!isset($_SESSION["type"]))
         <aside id="side-menu">
             <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
-                <div class="avatar avatar-online">
-                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                <div class="btn-group">
+                    <div class="avatar avatar-online dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt="" class="w-px-40 h-auto rounded-circle">
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div>
+                        <img src="<?php echo $_SESSION["image"] ?>" alt=""
                         class="w-px-40 h-auto rounded-circle">
+                            <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item filterBth">Edit profile</a>
+                        <a class="dropdown-item filterBth">Settings</a>
+                        <a class="dropdown-item filterBth">Language</a>
+                        <a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a>
+                    </div>
                 </div>
             </div>
-            <ul class="dropdown-menu d-none" id="profile">
-                <li>
-                <img src="<?php echo $_SESSION["image"] ?>" alt=""
-                        class="w-px-40 h-auto rounded-circle">
-                    <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &scap; (online)</span>
-                </li>
-                <li><a class="dropdown-item" href="#">Edit profile</a></li>
-                <li><a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a></li>
-            </ul>
             <ul>
-                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i
-                            class="fa-solid fa-award"></i>Tournaments</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-user-group"></i>Referees</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-bars-progress"></i>categories</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-bullseye"></i>Tennis
+                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i class="fa-solid fa-award"></i>Tournaments</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-user-group"></i>Referees</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bars-progress"></i>categories</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bullseye"></i>Tennis
                         Centers</a></li>
-                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i
-                            class="fa-solid fa-chart-simple"></i>Statistics</a></li>
+                <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-chart-simple"></i>Statistics</a></li>
             </ul>
         </aside>
         <main class="layout-page">
@@ -144,17 +143,21 @@ if (!isset($_SESSION["type"]))
                     <div class="card-body">
                       <form action="#" method="get">
                         <input type="hidden" name="tid" value="<?php echo $tid ?>">
-                        <input type="text" class="form-control" name="new_msg" id="new_msg" placeholder="Add update">
-                        <button type="submit" nme="submit" class="btn rounded-pill btn-primary mt-4 pull-right">
-                             Send
-                        </button>
+                        <input type="text" class="form-control" name="new_msg" id="new_msg" <?PHP if ($_SESSION["type"] == 'admin') {
+                                                                                                    echo 'placeholder= Add update';
+                                                                                                } ?><?PHP if ($_SESSION["type"] != 'admin') {
+                                                                                                                                                                                echo 'placeholder="to send message please sign in as Administrator" readonly';
+                                                                                                                                                                            } ?>>
+                            <?PHP if ($_SESSION["type"] == 'admin') {
+                                echo '<button type="submit" nme="submit" class="btn rounded-pill btn-primary mt-4 pull-right">Send</button>';
+                            } ?>
                             </form>
                     </div>
                   </div>
             </div>
         </main>
     </div>
-    <script src="js/menu.js"></script>
+    <script src="js/scripts.js"></script>
     <?php
         mysqli_free_result($result);
         mysqli_free_result($msgs);

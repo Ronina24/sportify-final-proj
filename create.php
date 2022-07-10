@@ -3,7 +3,7 @@ include "db.php";
 include "config.php";
 session_start();
 
-if (!isset($_SESSION["type"]))
+if (($_SESSION["type"] != 'admin'))
     header('Location: ' . URL . 'login.php');
 
 if (isset($_POST['submit'])) {
@@ -45,22 +45,24 @@ $result_bottom = mysqli_query($connection, $query_bottom);
         <aside id="side-menu">
             <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
-                <div class="avatar avatar-online">
-                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                <div class="btn-group">
+                    <div class="avatar avatar-online dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt="" class="w-px-40 h-auto rounded-circle">
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div>
+                        <img src="<?php echo $_SESSION["image"] ?>" alt=""
                         class="w-px-40 h-auto rounded-circle">
+                            <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item filterBth">Edit profile</a>
+                        <a class="dropdown-item filterBth">Settings</a>
+                        <a class="dropdown-item filterBth">Language</a>
+                        <a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a>
+                    </div>
                 </div>
             </div>
-            <ul class="dropdown-menu d-none" id="profile">
-                <li>
-                <div class="avatar avatar-online">
-                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
-                        class="w-px-40 h-auto rounded-circle">
-                </div>
-                    <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
-                </li>
-                <li><a class="dropdown-item" href="#">Edit profile</a></li>
-                <li><a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a></li>
-            </ul>
             <ul>
                 <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i class="fa-solid fa-award"></i>Tournaments</a></li>
                 <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-user-group"></i>Referees</a></li>
@@ -127,6 +129,7 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                             <div class="col mb-3">
                                                 <label for="tournament-name" class="form-label">Name<span> *</span></label>
                                                 <input type="text" name="name" class="form-control" id="tournament-name" aria-describedby="defaultFormControlHelp" placeholder="Name of tournament" required>
+                                                <div id="errorMessageName" class="errorMessage"></div>
                                             </div>
                                             <div class="col mb-3">
                                                 <label for="catagory" class="form-label">Category</label>
@@ -147,6 +150,7 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                             <div class="col mb-3">
                                                 <label for="date" class="form-label">Date<span> *</span></label>
                                                 <input type="date" name="date" class="form-control" id="date" aria-describedby="defaultFormControlHelp" onchange="setRegistration(value)" required>
+                                                <div id="errorMessageDate" class="errorMessage"></div>
                                             </div>
                                             <div class="col mb-3">
                                                 <label for="Registration" class="form-label">Registration Date</label>
@@ -168,8 +172,8 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                             </div>
                                         </div>
                                         <div class="mt-3 action-section">
+                                        <button class="btn rounded-pill btn-dark btn-navigate-form-step" type="button" step_number="3">Next</button>
                                             <button class="btn rounded-pill btn-dark btn-navigate-form-step" type="button" step_number="1">Prev</button>
-                                            <button class="btn rounded-pill btn-dark btn-navigate-form-step" type="button" step_number="3">Next</button>
                                         </div>
                                     </section>
                                     <section id="step-3" class="form-step d-none">
@@ -195,8 +199,8 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                             </div>
                                         </div>
                                         <div class="mt-3 action-section">
-                                            <button class="btn rounded-pill btn-dark btn-navigate-form-step" type="button" step_number="2">Prev</button>
-                                            <button class="btn rounded-pill btn-dark submit-btn" type="submit" name="submit">Create</button>
+                                            <button class="btn rounded-pill btn-dark submit-btn" type="submit" name="submit" step_number="4">Create</button>
+                                            <button class="btn rounded-pill btn-dark btn-navigate-form-step" type="button" step_number="2">Prev</button>        
                                         </div>
                                     </section>
                                 </div>
@@ -249,7 +253,7 @@ $result_bottom = mysqli_query($connection, $query_bottom);
             </section>
         </main>
     </div>
-    <script src="js/menu.js"></script>
+    <script src="js/scripts.js"></script>
     <?php
         mysqli_free_result($result_bottom);
     ?>
