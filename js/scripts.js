@@ -1,6 +1,5 @@
 var tournaments;
 var filteredTournaments;
-var noAdmin;
 
 const debounce = (callback) => {
   let timer;
@@ -99,12 +98,10 @@ const initTournaments = (tournaments) => {
       <div class="card-header">
       <span>${column.name}</span>
       <div>
-
           <i class="small_menu fa-solid fa-ellipsis-vertical"></i>
           <ul class="more-info-menu d-none">
           <li onclick="go_to_edit(${column.tournament_num})">edit</li>
           <li data-bs-toggle="modal" data-bs-target="#deleteModal-${column.tournament_num}" onclick="open_modal(${column.tournament_num})">delete</li>
-
           </ul>
           </div>
       </div>
@@ -137,7 +134,6 @@ const initTournaments = (tournaments) => {
 initHamburger();
 initTournaments(tournaments);
 initSearch();
-
 
 const createBtn = document.getElementsByClassName("createBtn");
 for (const btn of createBtn) {
@@ -314,100 +310,94 @@ document
     });
   });
 
-});
-
-function filterSelection(filterChoice) {
-  let i, Result = 0;
-  let tournamentsArrTemp = new Array();
-  filterResult = document.getElementById('filterResult');
-
-  if (filterChoice == 'all') {
-    filterResult.style.display = 'none';
+  function filterSelection(filterChoice) {
+    let i, Result = 0;
+    let tournamentsArrTemp = new Array();
+    filterResult = document.getElementById('filterResult');
+  
+    if (filterChoice == 'all') {
+      filterResult.style.display = 'none';
+      clearList();
+      initTournaments(tournaments);
+      return
+    }
+  
+    filterResult.style.display = 'block';
+    filterResult.onclick = () => {
+      filterSelection("all");
+    };
+  
+    for (i = 0; i < tournaments.length; i++) {
+      if (filterChoice == tournaments[i].category) {
+        tournamentsArrTemp.push(tournaments[i]);
+        Result++;
+      }
+    }
+  
+    for (i = 0; i < tournaments.length; i++) {
+      console.log(filterChoice + ' ' + tournaments[i])
+      if (filterChoice == tournaments[i].tennis_center) {
+        tournamentsArrTemp.push(tournaments[i]);
+        Result++;
+      }
+    }
+  
+    for (i = 0; i < tournaments.length; i++) {
+      if (filterChoice == tournaments[i].gender) {
+        tournamentsArrTemp.push(tournaments[i]);
+        Result++;
+      }
+    }
+  
     clearList();
-    initTournaments(tournaments);
-    return
-
+    if (Result != 0) {
+      initTournaments(tournamentsArrTemp);
+    };
+  
+    filterChoice = cenetr(filterChoice);
+    filterResult.innerHTML = filterChoice + '&nbsp;x' + Result;
   }
-
-  filterResult.style.display = 'block';
-  filterResult.onclick = () => {
-    filterSelection("all");
-  };
-
-  for (i = 0; i < tournaments.length; i++) {
-    if (filterChoice == tournaments[i].category) {
-      tournamentsArrTemp.push(tournaments[i]);
-      Result++;
+  
+  // Changing a tennis center from numbers to string
+  function cenetr(value) {
+    let center, tempValue, num;
+  
+    tempValue = value;
+    num = parseInt(tempValue);
+  
+    switch (num) {
+      case num = 1:
+        center = 'Misgav Club'
+        break;
+      case num = 2:
+        center = 'Top Club'
+        break;
+      case num = 3:
+        center = 'Rokah'
+        break;
+      case num = 4:
+        center = 'Court Philippe Chatrier'
+        break;
+      case num = 5:
+        center = 'Wigmore Lawn Tennis Club'
+        break;
+      case num = 6:
+        center = 'South Tennis Center'
+        break;
+  
+      default:
+        center = value;
+        break;
     }
-
+    return center;
   }
-
-  for (i = 0; i < tournaments.length; i++) {
-    console.log(filterChoice + ' ' + tournaments[i])
-    if (filterChoice == tournaments[i].tennis_center) {
-      tournamentsArrTemp.push(tournaments[i]);
-      Result++;
-    }
-  }
-
-  for (i = 0; i < tournaments.length; i++) {
-    if (filterChoice == tournaments[i].gender) {
-      tournamentsArrTemp.push(tournaments[i]);
-      Result++;
-    }
-  }
-
-  clearList();
-  if (Result != 0) {
-    initTournaments(tournamentsArrTemp);
-  };
-
-  filterChoice = cenetr(filterChoice);
-  filterResult.innerHTML = filterChoice + '&nbsp;x' + Result;
-}
-
-// Changing a tennis center from numbers to string
-function cenetr(value) {
-  let center, tempValue, num;
-
-  tempValue = value;
-  num = parseInt(tempValue);
-
-  switch (num) {
-    case num = 1:
-      center = 'Misgav Club'
-      break;
-    case num = 2:
-      center = 'Top Club'
-      break;
-    case num = 3:
-      center = 'Rokah'
-      break;
-    case num = 4:
-      center = 'Court Philippe Chatrier'
-      break;
-    case num = 5:
-      center = 'Wigmore Lawn Tennis Club'
-      break;
-    case num = 6:
-      center = 'South Tennis Center'
-      break;
-
-    default:
-      center = value;
-      break;
-  }
-  return center;
-}
-
-function removeManu(admin) {
-  let i;
-  let dot = document.getElementsByClassName("smallMenuAdmin");
-  if (admin == 1) {
-    for (i = 0; i < dot.length; i++) {
-      dot[i].style.display = "none";
+  
+  function removeManu(admin) {
+    let i;
+    let dot = document.getElementsByClassName("smallMenuAdmin");
+    if (admin == 1) {
+      for (i = 0; i < dot.length; i++) {
+        dot[i].style.display = "none";
+      }
     }
   }
-
-}
-

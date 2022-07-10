@@ -46,14 +46,13 @@ while ($row = mysqli_fetch_assoc($result)) {
         <aside id="side-menu">
         <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
- <div class="btn-group">
-                    <div class="dropdown-toggle avatar avatar-online" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                         <img src="<?php echo $_SESSION["image"] ?>" alt=""
-                        class="w-px-40 h-auto rounded-circle">
+                <div class="btn-group">
+                    <div class="avatar avatar-online dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt="" class="w-px-40 h-auto rounded-circle">
                     </div>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div>
-                             <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        <img src="<?php echo $_SESSION["image"] ?>" alt=""
                         class="w-px-40 h-auto rounded-circle">
                             <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
                         </div>
@@ -117,32 +116,27 @@ while ($row = mysqli_fetch_assoc($result)) {
                     echo '<button type="button" class="createBtn action-web btn rounded-pill btn-dark">+
                                 Create Tournamet</button>';
                 } ?>
-
             </div>
 
             <!-- Tournaments container -->
             <section id="tournaments" class="container-xxl flex-grow-1 container-p-y">
             </section>
             <!-- /Tournaments container-->
-
             <?PHP if ($_SESSION["type"] == 'admin') {
-                echo '<div class="action-mobile mb-4 justify-content-center"><button type="button" class=" createBtn btn rounded-pill btn-xl btn-icon btn-dark"><span>+</span></button>
+                echo '<div class="action-mobile mb-4 justify-content-center"><button type="button" class="btn rounded-pill btn-xl btn-icon btn-dark"><span>+</span></button>
                     </div>';
             } ?>
 
-
         </main>
     </div>
-
     <div class="error-message"><?php if (isset($message)) {
                                         echo $message;
                                     } ?></div>
-
     <script>
         var tournaments = <?php echo json_encode($data); ?>;
         var noAdmin = <?php echo $notAdmin; ?>;
     </script>
-    <script src="./js/menu.js"></script>
+    <script src="./js/scripts.js"></script>
     <?php
         mysqli_free_result($result);
     ?>
