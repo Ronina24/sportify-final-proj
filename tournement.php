@@ -11,7 +11,7 @@ if (!isset($_SESSION["type"]))
     $selected_center="";
     $centers = $json_data["Tennis_centers"];
 
-	$tid= $_GET["tid"]; // url queries are stored in $_GET
+	$tid= $_GET["tid"];
     if (!$tid){
         header("Refresh:0; url=index.php");
         return;
@@ -34,7 +34,6 @@ if (!isset($_SESSION["type"]))
     if (!empty($_GET['new_msg'])) {
         $new_msg= $_GET['new_msg'];
         $query  = "INSERT INTO tbl_messages_211(txt,tournament_num) VALUES('$new_msg',$tid)";
-      //  $result = mysqli_query($connection, $query) or die(mysqli_error());
         if ($result){unset($_GET['new_msg']);header("Refresh:0; url=tournement.php?tid=$tid");}}
 
 ?>
@@ -65,8 +64,8 @@ if (!isset($_SESSION["type"]))
             <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
                 <div class="avatar avatar-online">
-                    <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt=""
-                        class="w-px-40 h-auto rounded-circle" id="profileImage">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
                 </div>
             </div>
             <ul class="dropdown-menu d-none" id="profile">
@@ -92,12 +91,17 @@ if (!isset($_SESSION["type"]))
                             class="fa-solid fa-chart-simple"></i>Statistics</a></li>
             </ul>
         </aside>
-        <!-- /side-bar -->
-        <!-- main page content -->
         <main class="layout-page">
             <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="d-flex justify-content-between" id="navbar-mobile">
+                    <div id="hamburger"><i class="fa-solid fa-bars bar-icon"></i></div>
+                    <div class="avatar avatar-online">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
+                    </div>
+                </div>
                 <h4 class="fw-bold py-3 mb-4">
-                    <span class="text-muted fw-light">Tournaments /</span>
+                    <a href="http://localhost/CheckwithRacheli/index.php"><span class="text-muted fw-light">Tournaments /</span></a>
                     <?php echo $row['name']; ?>
                 </h4>
                 <div class="card">
@@ -149,9 +153,14 @@ if (!isset($_SESSION["type"]))
                   </div>
             </div>
         </main>
-    <!-- /main page content -->
     </div>
     <script src="js/menu.js"></script>
+    <?php
+        mysqli_free_result($result);
+        mysqli_free_result($msgs);
+    ?>
 </body>
-
 </html>
+<?php
+    mysqli_close($connection);
+?>

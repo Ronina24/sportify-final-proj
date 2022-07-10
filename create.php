@@ -7,7 +7,6 @@ if (!isset($_SESSION["type"]))
     header('Location: ' . URL . 'login.php');
 
 if (isset($_POST['submit'])) {
-    if (!empty($_POST['name']) && !empty($_POST['category']) && !empty($_POST['gender']) && !empty($_POST['age']) && !empty($_POST['date']) && !empty($_POST['reward']) && !empty($_POST['center'])) {
         $name = $_POST['name'];
         $category = $_POST['category'];
         $age = $_POST['age'];
@@ -16,14 +15,9 @@ if (isset($_POST['submit'])) {
         $center = $_POST['center'];
         $gender = $_POST['gender'];
         $date = $_POST['date'];
-        $query  = "INSERT INTO tbl_tournaments_211(name,date,category,age,status,tennis_center,award,msg_num,participants_num,gender) VALUES('$name','$date','$category','$age','0','$center','$reward','1','$max','$gender')";
+        $query  = "INSERT INTO tbl_tournaments_211(name,date,category,age,status,tennis_center,award,participants_num,gender) VALUES('$name','$date','$category','$age','0','$center','$reward','$max','$gender')";
         $result = mysqli_query($connection, $query);
          if ($result) { header('Location: ' . URL . 'index.php');}
-        // else {echo "Form not submitted";}
-
-    } else {
-        echo "all fields require!";
-    }
 }
 /* three bottom*/
 $query_bottom  = "SELECT * FROM tbl_tournaments_211 order by date desc limit 3";
@@ -52,12 +46,16 @@ $result_bottom = mysqli_query($connection, $query_bottom);
             <div id="side-menu-header">
                 <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
                 <div class="avatar avatar-online">
-                    <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle" id="profileImage">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
                 </div>
             </div>
             <ul class="dropdown-menu d-none" id="profile">
                 <li>
-                    <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle">
+                <div class="avatar avatar-online">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
+                </div>
                     <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
                 </li>
                 <li><a class="dropdown-item" href="#">Edit profile</a></li>
@@ -72,28 +70,24 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                 <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-chart-simple"></i>Statistics</a></li>
             </ul>
         </aside>
-        <!-- /side-bar -->
         <div class="menu-bg"></div>
-        <!-- main page content -->
         <main class="layout-page">
             <div class="container-xxl flex-grow-1 container-p-y">
                 <div class="d-flex justify-content-between" id="navbar-mobile">
                     <div id="hamburger"><i class="fa-solid fa-bars bar-icon"></i></div>
-                    <!-- userAvatar -->
                     <div class="avatar avatar-online">
-                        <img src="https://www.varietyinsight.com/images/honoree/Lady_Gaga.png" alt="" class="w-px-40 h-auto rounded-circle">
+                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
+                        class="w-px-40 h-auto rounded-circle">
                     </div>
-                    <!-- /userAvatar -->
                 </div>
                 <h4 class="fw-bold py-3 mb-4">
-                    <span class="text-muted fw-light">Tournaments /</span>
+                    <span class="text-muted fw-light" href="http://localhost/CheckwithRacheli/index.php">Tournaments /</span>
                     Create New Tournament
                 </h4>
-                <!-- Create form -->
+                <!-- create form -->
                 <form method="post" action="#">
                     <div class="col-md-12">
                         <div class="card me-sm-5">
-                            <!-- start -->
                             <div id="multi-step-form-container">
                                 <!-- Form Steps / Progress Bar -->
                                 <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
@@ -157,7 +151,6 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                             <div class="col mb-3">
                                                 <label for="Registration" class="form-label">Registration Date</label>
                                                 <input type="date" name="Registration" class="form-control" id="Registration" aria-describedby="defaultFormControlHelp" readonly>
-                                                <!-- <img src="images/edit.png" alt="" id="RegistrationEdit" onclick="editDateReg()"> -->
                                             </div>
                                         </div>
                                         <div class="row">
@@ -254,15 +247,14 @@ $result_bottom = mysqli_query($connection, $query_bottom);
 
                 </div>
             </section>
-            <!-- /last tournaments -->
-
         </main>
-        <!-- /main page content -->
     </div>
     <script src="js/menu.js"></script>
+    <?php
+        mysqli_free_result($result_bottom);
+    ?>
 </body>
-
 </html>
 <?php
-mysqli_close($connection);
+    mysqli_close($connection);
 ?>
