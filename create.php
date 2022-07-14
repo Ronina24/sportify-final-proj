@@ -235,6 +235,7 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                 <div class='progress'>
                                     <div class='progress-bar bg-success' role='progressbar' style='width:" . $row_bottom["status"] . "%'
                                         aria-valuenow=" . $row_bottom["status"] . " aria-valuemin='0' aria-valuemax='100'>
+                                        ". $row_bottom["status"] . "%'
                                     </div>
                                 </div>
                                 <div class='card-meta'>
