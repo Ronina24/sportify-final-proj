@@ -8,12 +8,15 @@ if (!isset($_SESSION["type"]))
     header('Location: ' . URL . 'login.php');
 
 $tid= $_GET["tid"]; 
-if (!$tid){
+
+$msg_id= $_GET["msg_id"]; 
+if (!$msg_id){
     header("Refresh:0; url=index.php");
     return;
 }
-$query= "DELETE FROM tbl_tournaments_211 WHERE tournament_num= $tid";
+$query= "DELETE FROM tbl_messages_211 WHERE msg_id= $msg_id";
+
 $result= mysqli_query($connection, $query) or die(mysqli_error());
 if ($result )
-    header('Location: ' . URL . 'index.php');
+    header('Location: ' . URL . "tournament.php?tid=$tid");
 ?>

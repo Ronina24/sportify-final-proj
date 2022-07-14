@@ -1,3 +1,3 @@
 <?php
 /*local path*/
-define("URL", "http://localhost/CheckwithRacheli/");
+define("URL", "https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/");

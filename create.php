@@ -32,9 +32,15 @@ $result_bottom = mysqli_query($connection, $query_bottom);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
     <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/vendor/css/core.css">
     <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/vendor/css/theme-default.css">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <title>Sportify</title>
 </head>
@@ -44,7 +50,7 @@ $result_bottom = mysqli_query($connection, $query_bottom);
         <!-- side-bar -->
         <aside id="side-menu">
             <div id="side-menu-header">
-                <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
+                <a id="logo-main" href="https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/index.php"></a>
                 <div class="btn-group">
                     <div class="avatar avatar-online dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="<?php echo $_SESSION["image"] ?>" alt="" class="w-px-40 h-auto rounded-circle">
@@ -59,12 +65,12 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                         <a class="dropdown-item filterBth">Edit profile</a>
                         <a class="dropdown-item filterBth">Settings</a>
                         <a class="dropdown-item filterBth">Language</a>
-                        <a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a>
+                        <a class="dropdown-item" href="https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/logout.php">Log Out</a>
                     </div>
                 </div>
             </div>
             <ul>
-                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i class="fa-solid fa-award"></i>Tournaments</a></li>
+                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/index.php"><i class="fa-solid fa-award"></i>Tournaments</a></li>
                 <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-user-group"></i>Referees</a></li>
                 <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bars-progress"></i>categories</a></li>
                 <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bullseye"></i>Tennis
@@ -83,7 +89,7 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                     </div>
                 </div>
                 <h4 class="fw-bold py-3 mb-4">
-                <a href="http://localhost/CheckwithRacheli/index.php"><span class="text-muted fw-light">Tournaments / </span></a>
+                <a href="https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/index.php"><span class="text-muted fw-light">Tournaments / </span></a>
                     Create New Tournament
                 </h4>
                 <!-- create form -->
@@ -126,6 +132,7 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                 <div class="card-body">
                                     <section id="step-1" class="form-step">
                                         <div class="row">
+                                
                                             <div class="col mb-3">
                                                 <label for="tournament-name" class="form-label">Name<span> *</span></label>
                                                 <input type="text" name="name" class="form-control" id="tournament-name" aria-describedby="defaultFormControlHelp" placeholder="Name of tournament" required>
@@ -134,10 +141,10 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                             <div class="col mb-3">
                                                 <label for="catagory" class="form-label">Category</label>
                                                 <select id="catagory" name="category" class="form-select color-dropdown">
-                                                    <option value="national">National</option>
-                                                    <option value="international">International</option>
-                                                    <option value="reginal">Reginal</option>
-                                                    <option value="municipal">Municipal</option>
+                                                    <option value="National">National</option>
+                                                    <option value="International">International</option>
+                                                    <option value="Regional">Regional</option>
+                                                    <option value="Municipal">Municipal</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -184,7 +191,7 @@ $result_bottom = mysqli_query($connection, $query_bottom);
                                                 </select>
                                             </div>
                                             <div class="col mb-3">
-                                                <label for="maximum" class="form-label">Max participants</label>
+                                                <label for="maximum" class="form-label">participants</label>
                                                 <input type="number" name="max" class="form-control" id="maximum" aria-describedby="defaultFormControlHelp">
                                             </div>
                                         </div>

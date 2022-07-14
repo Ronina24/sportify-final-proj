@@ -7,13 +7,13 @@ session_start();
 if (!isset($_SESSION["type"]))
     header('Location: ' . URL . 'login.php');
 if ($_SESSION["type"] != 'admin') {
-    $notAdmin = 1;
+    $admin = 1;
 } else {
-    $notAdmin = 2;
+    $admin = 2;
 }
 $query  = "SELECT * FROM tbl_tournaments_211";
 $result = mysqli_query($connection, $query);
-$data = []; 
+$data = [];
 
 while ($row = mysqli_fetch_assoc($result)) {
     $data[] = $row;
@@ -28,11 +28,13 @@ while ($row = mysqli_fetch_assoc($result)) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
     <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/vendor/css/core.css">
     <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/vendor/css/theme-default.css">
-    <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -44,28 +46,27 @@ while ($row = mysqli_fetch_assoc($result)) {
     <div id="wrapper">
         <!-- side-bar -->
         <aside id="side-menu">
-        <div id="side-menu-header">
-                <a id="logo-main" href="http://localhost/CheckwithRacheli/index.php"></a>
+            <div id="side-menu-header">
+                <a id="logo-main" href="https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/index.php"></a>
                 <div class="btn-group">
                     <div class="avatar avatar-online dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="<?php echo $_SESSION["image"] ?>" alt="" class="w-px-40 h-auto rounded-circle">
+                        <img src="<?php echo $_SESSION["image"] ?>" alt="" class="w-px-40 h-auto rounded-circle">
                     </div>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div>
-                        <img src="<?php echo $_SESSION["image"] ?>" alt=""
-                        class="w-px-40 h-auto rounded-circle">
+                            <img src="<?php echo $_SESSION["image"] ?>" alt="" class="w-px-40 h-auto rounded-circle">
                             <b> <?php echo $_SESSION["name"] ?></b><span id="profileSpan"> &nbsp; (<?php echo $_SESSION["type"] ?>)</span>
                         </div>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item filterBth">Edit profile</a>
                         <a class="dropdown-item filterBth">Settings</a>
                         <a class="dropdown-item filterBth">Language</a>
-                        <a class="dropdown-item" href="http://localhost/CheckwithRacheli/logout.php">Log Out</a>
+                        <a class="dropdown-item" href="https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/logout.php">Log Out</a>
                     </div>
                 </div>
             </div>
             <ul>
-                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="http://localhost/CheckwithRacheli/index.php"><i class="fa-solid fa-award"></i>Tournaments</a></li>
+                <li class="menu-list-item active"><a class="menu-list-item-link selected" href="https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/index.php"><i class="fa-solid fa-award"></i>Tournaments</a></li>
                 <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-user-group"></i>Referees</a></li>
                 <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bars-progress"></i>categories</a></li>
                 <li class="menu-list-item"><a class="menu-list-item-link" href=""><i class="fa-solid fa-bullseye"></i>Tennis
@@ -88,8 +89,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                         </div>
                     </div>
                     <div class="avatar avatar-online">
-                    <img src="<?php echo $_SESSION["image"] ?>" alt=""
-                        class="w-px-40 h-auto rounded-circle">
+                        <img src="<?php echo $_SESSION["image"] ?>" alt="" class="w-px-40 h-auto rounded-circle">
                     </div>
                 </div>
             </nav>
@@ -101,14 +101,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <div id="filterResult"></div>
                     <div class="dropdown-menu dropdown-menu-right" id="centerFilter">
                         <h6 class="dropdown-header">Category</h6>
-                        <button class="dropdown-item filterBth" onclick="filterSelection('national')">National</button>
-                        <button class="dropdown-item filterBth" onclick="filterSelection('international')">International</button>
-                        <button class="dropdown-item filterBth" onclick="filterSelection('regional')">Reginal</button>
-                        <button class="dropdown-item filterBth" onclick="filterSelection('municipal')">Municipal</button>
+                        <button class="dropdown-item filterBth" onclick="filterSelection('National')">National</button>
+                        <button class="dropdown-item filterBth" onclick="filterSelection('International')">International</button>
+                        <button class="dropdown-item filterBth" onclick="filterSelection('Regional')">Regional</button>
+                        <button class="dropdown-item filterBth" onclick="filterSelection('Municipal')">Municipal</button>
                         <h6 class="dropdown-header">Gender</h6>
-                        <button class="dropdown-item filterBth" onclick="filterSelection('male')">Male</button>
-                        <button class="dropdown-item filterBth" onclick="filterSelection('female')">Female</button>
-                        <button class="dropdown-item filterBth" onclick="filterSelection('involved')">Involved</button>
+                        <button class="dropdown-item filterBth" onclick="filterSelection('male')">male</button>
+                        <button class="dropdown-item filterBth" onclick="filterSelection('female')">female</button>
+                        <button class="dropdown-item filterBth" onclick="filterSelection('involved')">involved</button>
                         <h6 class="dropdown-header">Tennis Center</h6>
                     </div>
                 </div>
@@ -123,25 +123,24 @@ while ($row = mysqli_fetch_assoc($result)) {
             </section>
             <!-- /Tournaments container-->
             <?PHP if ($_SESSION["type"] == 'admin') {
-                echo '<div class="action-mobile mb-4 justify-content-center"><button type="button" class="btn rounded-pill btn-xl btn-icon btn-dark"><span>+</span></button>
+                echo '<div class="action-mobile mb-4 justify-content-center"><button type="button" class="btn createBtn rounded-pill btn-xl btn-icon btn-dark"><span>+</span></button>
                     </div>';
             } ?>
 
         </main>
     </div>
     <div class="error-message"><?php if (isset($message)) {
-                                        echo $message;
-                                    } ?></div>
+                                    echo $message;
+                                } ?>
+    </div>
     <script>
         var tournaments = <?php echo json_encode($data); ?>;
-        var noAdmin = <?php echo $notAdmin; ?>;
+        var noAdmin = <?php echo $admin; ?>;
     </script>
     <script src="./js/scripts.js"></script>
     <?php
-        mysqli_free_result($result);
+    mysqli_free_result($result);
     ?>
 </body>
+
 </html>
-<?php
-    mysqli_close($connection);
-?>

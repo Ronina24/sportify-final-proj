@@ -75,7 +75,6 @@ const initTournaments = (tournaments) => {
     const rowElement = document.createElement("div");
     rowElement.classList.add("row", "mb-2");
     row.forEach((column) => {
-      console.log({ column });
       const columnElement = document.createElement("div");
       columnElement.classList.add('"col-md-6', "col-lg-4", "mb-3");
       columnElement.innerHTML = `
@@ -95,11 +94,11 @@ const initTournaments = (tournaments) => {
         </div>
       </div>
     </div>
-      <div class="card ${column.gender} ${column.tennis_center} ${column.category}" onclick="window.location.href='http://localhost/CheckwithRacheli/tournement.php?tid=${column.tournament_num}'">
+      <div class="card ${column.gender} ${column.tennis_center} ${column.category}" onclick="window.location.href='https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/tournament.php?tid=${column.tournament_num}'">
       <div class="card-header">
       <span>${column.name}</span>
       <div>
-          <i class="small_menu fa-solid fa-ellipsis-vertical"></i>
+          <i class="small_menu fa-solid fa-ellipsis-vertical smallMenuAdmin"></i>
           <ul class="more-info-menu d-none">
           <li onclick="go_to_edit(${column.tournament_num})">edit</li>
           <li data-bs-toggle="modal" data-bs-target="#deleteModal-${column.tournament_num}" onclick="open_modal(${column.tournament_num})">delete</li>
@@ -139,7 +138,7 @@ initSearch();
 const createBtn = document.getElementsByClassName("createBtn");
 for (const btn of createBtn) {
   btn.addEventListener("click", function () {
-    window.location.href = "http://localhost/CheckwithRacheli/create.php";
+    window.location.href = "https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/create.php";
   });
 }
 
@@ -166,11 +165,11 @@ function showCenterFilter(data) {
   }
 }
 
-fetch("http://localhost/CheckwithRacheli/tennis_centers.json")
+fetch("https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/tennis_centers.json")
   .then((response) => response.json())
   .then((data) => showcenter(data));
 
-fetch("http://localhost/CheckwithRacheli/tennis_centers.json")
+fetch("https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/tennis_centers.json")
   .then((response) => response.json())
   .then((data) => showCenterFilter(data));
 
@@ -207,12 +206,11 @@ function open_modal(tid) {
 }
 
 function backHome() {
-  window.location.href = "http://localhost/CheckwithRacheli/index.php";
+  window.location.href = "https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/index.php";
 }
 
 function deleteTour(x) {
-  console.log({ x });
-  window.location.href = `http://localhost/CheckwithRacheli/delete.php?tid=${x}`;
+  window.location.href = `https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/delete.php?tid=${x}`;
 }
 
 function go_to_edit(x) {
@@ -220,7 +218,7 @@ function go_to_edit(x) {
   e.cancelBubble = true;
   if (e.stopPropagation) e.stopPropagation();
   e.preventDefault();
-  window.location.href = `http://localhost/CheckwithRacheli/edit.php?tid=${x}`;
+  window.location.href = `https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/edit.php?tid=${x}`;
 }
 
 function setRegistration(dateTournament) {
@@ -246,7 +244,7 @@ const navigateToFormStep = (stepNumber) => {
     if (validation.value.length < 3) {
       ErrorMessage = document.getElementById('errorMessageName');
       ErrorMessage.innerHTML = 'The name of the tournament must be at least 3 in length';
-      validation.style.background = '#c2eb2d';
+      validation.style.background = '#FFD2C1';
       validation.addEventListener('change', () => {
         validation.style.background = 'white';
         ErrorMessage.innerHTML = ''
@@ -259,7 +257,7 @@ const navigateToFormStep = (stepNumber) => {
     if (!validation.value) {
       ErrorMessage = document.getElementById('errorMessageDate');
       ErrorMessage.innerHTML = 'Date selection is required';
-      validation.style.background = '#c2eb2d';
+      validation.style.background = '#FFD2C1';
       validation.addEventListener('change', () => {
         validation.style.background = 'white';
         ErrorMessage.innerHTML = ''
@@ -336,7 +334,6 @@ document
     }
   
     for (i = 0; i < tournaments.length; i++) {
-      console.log(filterChoice + ' ' + tournaments[i])
       if (filterChoice == tournaments[i].tennis_center) {
         tournamentsArrTemp.push(tournaments[i]);
         Result++;
@@ -396,9 +393,17 @@ document
   function removeManu(admin) {
     let i;
     let dot = document.getElementsByClassName("smallMenuAdmin");
-    if (admin == 1) {
+    if (admin == '1') {
       for (i = 0; i < dot.length; i++) {
         dot[i].style.display = "none";
       }
     }
+  }
+
+  function edit_msg(id,tid){
+    window.location.href = `https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/edit_msg.php?tid=${tid}&msg_id=${id}`;
+  }
+  
+  function delete_msg(id,tid){
+    window.location.href = `https://se.shenkar.ac.il/students/2021-2022/web1/dev_211/delete_msg.php?tid=${tid}&msg_id=${id}`;
   }
