@@ -339,6 +339,10 @@ nav .avatar-online {
   margin-right: 1rem;
   color: #71dd37;
 }
+#t-updates > li > div >button> i {
+  margin-right: 1rem;
+  color: #71dd37;
+}
 #t-updates > li > small {
   margin-left: 2rem;
   color: #697a8d8a;
@@ -462,41 +466,28 @@ ul.form-stepper li a .form-stepper-circle {
 }
 .form-stepper .form-stepper-active .form-stepper-circle {
   background-color: #c2eb2d;
-  color: #fff;
 }
 
 .form-stepper .form-stepper-active .form-stepper-circle:hover {
   background-color: #c2eb2d;
-  color: #fff;
 }
 .form-stepper .form-stepper-unfinished .form-stepper-circle {
   background-color: #f8f7ff;
 }
 .form-stepper .form-stepper-completed .form-stepper-circle {
   background-color: #c2eb2d;
-  color: #fff;
 }
 
 .form-stepper .form-stepper-completed .form-stepper-circle:hover {
   background-color: #c2eb2d;
-  color: #fff;
 }
-.form-stepper .form-stepper-active span.text-muted {
-  color: #fff;
-}
-.form-stepper .form-stepper-completed span.text-muted {
-  color: #fff;
-}
+
 .form-stepper .label {
   font-size: 1rem;
   margin-top: 0.5rem;
 }
 .form-stepper a {
   cursor: default;
-}
-
-.card-body {
-  padding-top: 0;
 }
 
 .modal {
@@ -525,8 +516,13 @@ ul.form-stepper li a .form-stepper-circle {
   font-weight: 500;
 }
 
+label span{
+  color: red;
+}
+
 .errorMessage{
-color: red;
+  
+color: #909090;
 }
 
 .dropdown-toggle{
@@ -536,3 +532,25 @@ color: red;
 #profileSpan{
   font-size: 10px;
 }
+
+.message {
+  display: flex;
+  align-items: baseline;
+}
+/* .message input {
+  border-width: 0;
+  width: 100%;
+} */
+
+.message button {
+  border-width: 0;
+  background-color: unset;
+  padding: 0;
+}
+
+.message textarea {
+  border-width: 0;
+  width: 100%;
+}
+
+/* , .bx-save:hover , .bx-edit:hover */
